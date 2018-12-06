@@ -1,0 +1,11 @@
+{
+  "name": "yoda-platform-tools",
+  "private": true,
+  "workspaces": [
+    "yoda-cli",
+    "yoda-platform-lib"
+  ],
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}

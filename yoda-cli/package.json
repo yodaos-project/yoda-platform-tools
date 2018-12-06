@@ -1,0 +1,8 @@
+{
+  "name": "yoda-cli",
+  "version": "1.0.0",
+  "bin": "bin/yoda",
+  "dependencies": {
+    "yoda-platform-lib": "1.0.0"
+  }
+}
