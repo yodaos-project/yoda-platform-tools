@@ -1,4 +1,11 @@
 {
   "name": "yoda-platform-lib",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc -p .",
+    "lint": "standard '*.ts'"
+  },
+  "dependencies": {
+    "adbkit": "^2.11.0"
+  }
 }
