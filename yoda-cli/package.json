@@ -5,6 +5,7 @@
   "bin": "bin/yoda",
   "scripts": {
     "build": "tsc -p .",
+    "clean": "rm -rf out",
     "ci": "npm run build"
   },
   "dependencies": {
