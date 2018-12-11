@@ -7,8 +7,10 @@
     "yoda-platform-lib"
   ],
   "scripts": {
+    "build": "bash script/build.sh",
+    "pkg": "bash script/pkg.sh",
     "lint": "standard '**/*.ts' '**/*.js'",
-    "ci": "npm run lint && bash script/build.sh"
+    "ci": "npm run lint && npm run build"
   },
   "standard": {
     "parser": "typescript-eslint-parser",

@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+require('../out/index.js').main({
+  type: 'dbus',
+  service: 'com.rokid.AmsExport',
+  objectPath: '/rokid/yoda/debug',
+  interface: 'rokid.yoda.Debug'
+}, process.argv.slice(2))

@@ -14,8 +14,7 @@ script:
 - npm run ci
 
 before_deploy:
-  - cd yoda-cli
-  - PKG_CACHE_PATH=$HOME/.pkg npx pkg --out-path ../build ./bin/yoda-am
+  - npm run pkg
 
 deploy:
   provider: releases
