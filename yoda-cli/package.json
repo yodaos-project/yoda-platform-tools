@@ -4,5 +4,8 @@
   "bin": "bin/yoda",
   "dependencies": {
     "yoda-platform-lib": "1.0.0"
+  },
+  "devDependencies": {
+    "pkg": "^4.3.5"
   }
 }

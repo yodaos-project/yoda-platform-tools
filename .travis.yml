@@ -1,0 +1,29 @@
+sudo: false
+language: node_js
+node_js:
+- '10'
+
+cache:
+  directories:
+  - $HOME/.pkg
+
+install:
+- yarn
+
+script:
+- npm run ci
+
+before_deploy:
+  - cd yoda-cli
+  - PKG_CACHE_PATH=$HOME/.pkg npx pkg --out-path ../build ./bin/yoda
+
+deploy:
+  provider: releases
+  api_key:
+    secure: TTEXy8ARwDrY3AZy20H9n/r5jKL41V0upAJma6ZX2lGreVUwsR3HrxtVgJeiSwBMFiJDmzRC99Q0dPybSDdxGlZMRp89d025GeUl1e1uwPSpTxPTUkY2bjzPBRitQj/Z245kzjDT0Ei/2RyOyjoBvhJB8WJtx6vjt7VNyAkrS8ERXwNeziY4OBilG3FFkE15rpR6eI54blPHLvp1OFi8PxopyO9x6DhRM/e6YkqdtHkcMzALqEFXCMnXr3BxnyhCHTpTfttY8pIPyOlyW8SmJqK+icBSf6pkaTmx7+OVL98q31cWFc6OwUFvm0QdY4QeluJrYnoWi0tc+Nn9mGkrZRDqiBiXHhlnPJ7COxPFVp/bdrzoWFIvV3u9UhiCI1zeuv0Fn3s+rp9FS1EGBNa9wCiUXlWeZZVFN21ZBkJnxqHJHAqKWvsWUkFcLmTLKP4clIeVARcSu3FtJsmtIAySr8a2TDc4+cmWUIJ1DoqlsIJBcmJlhi1XCxOYDFu5HcRkX+0NWZ1BCzvXJzn5me3XU8xh8DIAWpm3KP5YNgIkh7XK/w/57CD8aVjUSX5AhC5pbVEFsdw4KGisDViwPNVkO+GBzLWEYChDpHaMshFCBdvaLgRrOnQzOACkQhGy2P43iJ2XHc0Pf/NoI9Ok+TbupOpE+Qg7M6qZLte4a0D5DJ0=
+  file_glob: true
+  skip_cleanup: true
+  file: "./build/*"
+  on:
+    repo: Rokid/yoda-platform-tools
+    tags: true

@@ -5,6 +5,10 @@
     "yoda-cli",
     "yoda-platform-lib"
   ],
+  "scripts": {
+    "lint": "standard '**/*.ts' '**/*.js'",
+    "ci": "npm run lint"
+  },
   "standard": {
     "parser": "typescript-eslint-parser",
     "plugins": [ "typescript" ]
