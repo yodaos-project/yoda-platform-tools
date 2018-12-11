@@ -2,11 +2,16 @@
   "name": "yoda-platform-lib",
   "version": "1.0.0",
   "license": "Apache-2.0",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
-    "lint": "standard '*.ts'"
+    "ci": "npm run build"
   },
   "dependencies": {
     "adbkit": "^2.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.2.2"
   }
 }

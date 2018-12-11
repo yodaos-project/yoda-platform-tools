@@ -1,12 +1,12 @@
 import * as adb from 'adbkit'
 
-interface DBusConnection {
+export interface IDBusConnection {
   service: string
   objectPath: string
   interface: string
 }
 
-function generateDBusCommand (session: string, connection: DBusConnection, methodName: string, args: any[]) {
+function generateDBusCommand (session: string, connection: IDBusConnection, methodName: string, args: any[]) {
   let cmd = [
     `dbus-send --print-reply=literal`,
     `--bus=${session}`,
@@ -28,14 +28,25 @@ function generateDBusCommand (session: string, connection: DBusConnection, metho
   return cmd.join(' ')
 }
 
+export class PlatformSelector {
+  private static client = adb.createClient()
+
+  // eslint-disable-next-line no-useless-constructor
+  private constructor () {}
+
+  static async listDevices () {
+    return this.client.listDevices()
+  }
+}
+
 export class PlatformClient {
-  client = adb.createClient()
-  sessionAddress?: string
+  private client = adb.createClient()
+  private sessionAddress?: string
 
   // eslint-disable-next-line no-useless-constructor
   constructor (
     private deviceId: string,
-    private connection: DBusConnection
+    private connection: IDBusConnection
   ) {}
 
   async init () {
@@ -58,11 +69,16 @@ export class PlatformClient {
     return match[1]
   }
 
-  async command (command: string, args: any[]) {
+  async command (command: string, args: any[]): Promise<string> {
     const cmd = generateDBusCommand(this.sessionAddress!, this.connection, command, args)
     const output: Buffer = await this.client.shell(this.deviceId, cmd)
       .then(adb.util.readAll)
-    const result = JSON.parse(output.toString())
+    return output.toString()
+  }
+
+  async jsonCommand (command: string, args: any[]) {
+    const output = await this.command(command, args)
+    const result = JSON.parse(output)
     return result
   }
 }

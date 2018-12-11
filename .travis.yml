@@ -15,7 +15,7 @@ script:
 
 before_deploy:
   - cd yoda-cli
-  - PKG_CACHE_PATH=$HOME/.pkg npx pkg --out-path ../build ./bin/yoda
+  - PKG_CACHE_PATH=$HOME/.pkg npx pkg --out-path ../build ./bin/yoda-am
 
 deploy:
   provider: releases

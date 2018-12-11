@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "bin": "bin/yoda",
+  "scripts": {
+    "build": "tsc -p .",
+    "ci": "npm run build"
+  },
   "dependencies": {
+    "minimist": "^1.2.0",
     "yoda-platform-lib": "1.0.0"
   },
   "devDependencies": {
-    "pkg": "^4.3.5"
+    "@types/minimist": "^1.2.0",
+    "pkg": "^4.3.5",
+    "typescript": "^3.2.2"
   }
 }
