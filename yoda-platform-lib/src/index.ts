@@ -40,13 +40,13 @@ export class PlatformSelector {
 }
 
 export class PlatformClient {
-  private client = adb.createClient()
-  private sessionAddress?: string
+  client = adb.createClient()
+  sessionAddress?: string
 
   // eslint-disable-next-line no-useless-constructor
   constructor (
-    private deviceId: string,
-    private connection: IDBusConnection
+    public deviceId: string,
+    public connection: IDBusConnection
   ) {}
 
   async init () {

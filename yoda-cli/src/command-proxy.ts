@@ -3,11 +3,13 @@ import * as minimist from 'minimist'
 import { IDBusConnection, PlatformClient, PlatformSelector } from 'yoda-platform-lib'
 import { omit } from './util'
 
-interface IConnection {
+export interface IConnection {
   type: 'dbus'
 }
 
-function isDBusConnection (connection: IConnection | IDBusConnection): connection is IDBusConnection {
+export type TConnection = IConnection | IDBusConnection
+
+export function isDBusConnection (connection: TConnection): connection is IDBusConnection {
   if ((connection as IConnection).type === 'dbus') {
     return true
   }
@@ -32,5 +34,10 @@ export async function main (connection: IConnection, args: string[]) {
     commandArgs.push(arg)
   }
   const result = await client.jsonCommand(command, commandArgs)
-  console.log(result)
+  if (result.ok !== true) {
+    console.error(`Unexpected error on invoking ${command}:`)
+    console.error(result)
+    process.exit(1)
+  }
+  console.log(result.result)
 }
