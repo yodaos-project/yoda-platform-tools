@@ -1,6 +1,7 @@
 {
   "name": "yoda-platform-tools",
   "private": true,
+  "license": "Apache-2.0",
   "workspaces": [
     "yoda-cli",
     "yoda-platform-lib"
