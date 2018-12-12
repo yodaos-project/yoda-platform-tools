@@ -9,23 +9,26 @@ const DBusConnection = {
 
 program
   .command('list')
+  .description('Get info of all packages on device.')
   .action(async (cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
     const result = await client.list()
-    printResult(result)
+    printResult(result, 'list')
   })
 
 program
   .command('path <package-name>')
+  .description('Get package directory on device.')
   .action(async (packageName, cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
     await client.init()
     const result = await client.path(packageName)
-    console.log(result)
+    printResult({ ok: true, result }, 'path')
   })
 
 program
   .command('install <package-path>')
+  .description('Install an app from local package path.')
   .option('--package-name <name>', 'use package name instead of name in package.json')
   .option('--install-path <path>', 'use path instead of default /opt/apps')
   .option('--install-name <name>', 'use name instead of package name on installation')
@@ -33,7 +36,7 @@ program
     const client = await getClient(DBusConnection, cmd.parent.serial)
     await client.init()
     const result = await client.install(packagePath, cmd)
-    printResult(result)
+    printResult(result, 'install')
   })
 
 program.parse(process.argv)

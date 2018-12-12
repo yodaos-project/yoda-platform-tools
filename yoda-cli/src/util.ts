@@ -1,4 +1,5 @@
 import { inspect } from 'util'
+import * as signale from 'signale'
 // eslint-disable-next-line no-unused-vars
 import { PlatformSelector, PackageManager, IDBusConnection } from 'yoda-platform-lib'
 
@@ -40,9 +41,9 @@ export async function getClient (connection: IDBusConnection, serial?: string) {
 
 export function printResult (data: any, command?: string) {
   if (data.ok !== true) {
-    console.error(`Unexpected error on requesting YodaRuntime`, command || '')
-    console.error(data.message || 'No message.', '\n', data.stack || '')
+    signale.error(`Unexpected error on requesting YodaRuntime`, command || '')
+    signale.error(data.message || 'No message.', '\n', data.stack || '')
     process.exit(1)
   }
-  console.log(inspect(data.result, false, null, true))
+  signale.success(command, '\n', inspect(data.result, false, null, true))
 }
