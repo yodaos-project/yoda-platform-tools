@@ -1,7 +1,7 @@
 import * as minimist from 'minimist'
 // eslint-disable-next-line no-unused-vars
 import { IDBusConnection, PlatformClient, PlatformSelector } from 'yoda-platform-lib'
-import { omit } from './util'
+import { omit, printResult } from './util'
 
 export interface IConnection {
   type: 'dbus'
@@ -34,10 +34,5 @@ export async function main (connection: IConnection, args: string[]) {
     commandArgs.push(arg)
   }
   const result = await client.jsonCommand(command, commandArgs)
-  if (result.ok !== true) {
-    console.error(`Unexpected error on invoking ${command}:`)
-    console.error(result)
-    process.exit(1)
-  }
-  console.log(result.result)
+  printResult(result.result)
 }

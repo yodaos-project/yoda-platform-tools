@@ -1,58 +1,7 @@
 import * as minimist from 'minimist'
-import * as glob from 'glob'
-import { promisify } from 'util'
-import { join, relative } from 'path'
-import * as fs from 'fs'
 import * as pick from 'lodash/pick'
-// eslint-disable-next-line no-unused-vars
-import { PlatformClient, PlatformSelector } from 'yoda-platform-lib'
-import { camelCaseKeys } from './util'
-
-const globAsync = promisify(glob)
-const readFileAsync = promisify(fs.readFile)
-
-interface IInstallOptions {
-  packageName?: string
-  installName?: string
-  installPath?: string
-}
-
-export class PackageManager extends PlatformClient {
-  async list () {
-    return this.jsonCommand('ListPackages', [])
-  }
-
-  async path (packageName: string) {
-
-  }
-
-  async install (packageLocalPath: string, options?: IInstallOptions) {
-    const packageJsonStr = await readFileAsync(join(packageLocalPath, 'package.json'), 'utf8')
-    const packageJson = JSON.parse(packageJsonStr)
-    if (options == null) {
-      options = {}
-    }
-    let packageName = options.packageName
-    const installPath = options.installPath || '/opt/apps'
-    if (packageName == null) {
-      packageName = packageJson.name
-    }
-    if (packageName == null) {
-      throw new Error('Could not determine package name.')
-    }
-    const installName = options.installName || packageName
-    const files = await globAsync(join(packageLocalPath, '**', '*'))
-    await Promise.all(files.map(file => {
-      const remotePath = join(installPath, installName, relative(packageLocalPath, file))
-      return this.client.push(this.deviceId, file, remotePath)
-    }))
-    return this.jsonCommand('Reload', [packageName])
-  }
-
-  async uninstall (packageName: string) {
-
-  }
-}
+import { PlatformSelector, PackageManager } from 'yoda-platform-lib'
+import { camelCaseKeys, printResult } from './util'
 
 export async function main (argv: string[]) {
   const devices = await PlatformSelector.listDevices()
@@ -68,18 +17,26 @@ export async function main (argv: string[]) {
   let options: any = minimist(argv)
   options = Object.assign(camelCaseKeys(options), pick(options, '_', '__'))
   switch (options._[0]) {
-    case 'list':
-      client.list()
+    case 'list': {
+      const result = await client.list()
+      printResult(result)
       break
-    case 'path':
-      client.path(options._[1])
+    }
+    case 'path': {
+      const result = await client.path(options._[1])
+      console.log(result)
       break
-    case 'install':
-      client.install(options._[1], options as any)
+    }
+    case 'install': {
+      const result = await client.install(options._[1], options as any)
+      printResult(result)
       break
-    case 'uninstall':
-      client.uninstall(options._[1])
+    }
+    case 'uninstall': {
+      const result = await client.uninstall(options._[1])
+      printResult(result)
       break
+    }
     default:
       throw new Error(`Unknown command ${options._[0]}`)
   }
