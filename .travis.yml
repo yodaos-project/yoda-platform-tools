@@ -10,19 +10,41 @@ cache:
 install:
 - yarn
 
-script:
-- npm run ci
+.npm_deploy_job_template: &npm_deploy_job_template
+  deploy:
+    provider: npm
+    email: legendecas@gmail.com
+    api_key:
+      secure: Zc0Y0PjwQBBcg1OlzjJONpoXh2J1418vNlnQRoENEJusqNaA3c9Zw6DraZpR5UDhQM+YXljgb0VSgdhKxMk/W0MiM4gPxYbzjBxCbJ/Mb9rZEXP/fUzdxRMbM7HyZJ+myHUHgdqNVAtghxEn07+88AW+S/LMSaY0WDQ1ANEH/BJCscZ92t5SLkc1NpMp4FumjG3EGZJj1w8ZAcbdN0Eq6HohwfCV9Ejl9Z1x9NFvIl2+cuf8stP+wrYvppq+PUoJuZB7jshgEO0jc5a47sa9nlx3LELNNZaNGmcuPZ2DdzUt7XDgD27qYJRkCIkH3Gvz3s4MV3qxPYNVhzPJfXLVv7GcumEA21NuOBYBMB+yhHmgdS2UmQKfeZc4s5osbPzx3ytp5T0Z4pi4I6sHes0kOeyP3giHGv2gnukUEY7PPmllxMsFLHfoO1mcDvJ7Y2p+Siv819k/LFWHF3vIr8vPJhEqTKEHV3El0T8wLZLto+gPQRH9ekaNFsaRHUe8gmHWrNo/q67O88+BXZkEVO1z4Jlwd7bZl8stO/GFbM5PvpIJh81zEYagLZ99/2VxoElVDRAsDPKsU19u0qrNT14iBwSrfwJwPmlIOiP2nbeaSes0YI3kAeVcm6sBICJBEpZ6lcPUCrviR519BJwlQD/oxUjgO4Gh6jUbSu00+A2K7BE=
+    on:
+      repo: Rokid/yoda-platform-tools
+      tags: true
 
-before_deploy:
-  - npm run pkg
+jobs:
+  include:
+  - stage: test
+    script:
+    - npm run ci
 
-deploy:
-  provider: releases
-  api_key:
-    secure: dSDFAwoeOUepD2e+z3j3rnpWeaRXfNb4lolYbG9ekI2BOW4TIWNsBPLUJmwc+QD2AKs+HEqKcme5vizFTZXnJnto8Vt4RJLXP1HlKOt9ML9SO/IIw+oJbeqHNnawXCouC3d47t3YRmLXzzzUKCx++kLoYxE6cprceUjFJzR0p0y0Qx6L5Lzeg0rCImumcyVRPPRgq6+OFNgwRl9xFZIRcoXOPv+5CUt3xzmGU/KhSs+pAPICFcRkdlQz9oeYkytOIIakzSJj8vBOUWPlQN7qt1uhMUAdtBUepL006zAY6+F49gDMCRuNfrWLqGV02BwfAuPrMCtMm+0QzyTUGLWj4zx0uRMN1hHUG8YxHTU/H8JxovAk1b92Q3O9N5GU6MrUw6pAja2MvvrqZDtL9A7yJeXHVJnPeMdtYpedDmv5ykM5uDdPXrPX91OcOTlXDvY1w9iuS4zMhkQ6LPsUMIa2sxF/e06bO23jjKmI9I9Xq7vf1xIGrsxzhLbMYc8Ntc4wmWuDi4yh28avdjPHR2c65MFit1fHs1YuyDIWygNfB1mPogp8oWydzyfs4RfMnPZjObsnCpVW8TX/rdsERra7kjzdRpLDCV6bzkSPazmLKwFP3aacB/cz7YLVh+wYwPyGODS6h3mBoO+yMWvIOSEUUcUO+Nat2C1iWIIg7CcnoIo=
-  file_glob: true
-  skip_cleanup: true
-  file: "./build/*"
-  on:
-    repo: Rokid/yoda-platform-tools
-    tags: true
+  - stage: deploy
+    before_deploy:
+      - cd yoda-cli
+    <<: *npm_deploy_job_template
+  - stage: deploy
+    before_deploy:
+      - cd yoda-platform-lib
+    <<: *npm_deploy_job_template
+
+  - stage: deploy
+    before_deploy:
+      - npm run pkg
+    deploy:
+      provider: releases
+      api_key:
+        secure: dSDFAwoeOUepD2e+z3j3rnpWeaRXfNb4lolYbG9ekI2BOW4TIWNsBPLUJmwc+QD2AKs+HEqKcme5vizFTZXnJnto8Vt4RJLXP1HlKOt9ML9SO/IIw+oJbeqHNnawXCouC3d47t3YRmLXzzzUKCx++kLoYxE6cprceUjFJzR0p0y0Qx6L5Lzeg0rCImumcyVRPPRgq6+OFNgwRl9xFZIRcoXOPv+5CUt3xzmGU/KhSs+pAPICFcRkdlQz9oeYkytOIIakzSJj8vBOUWPlQN7qt1uhMUAdtBUepL006zAY6+F49gDMCRuNfrWLqGV02BwfAuPrMCtMm+0QzyTUGLWj4zx0uRMN1hHUG8YxHTU/H8JxovAk1b92Q3O9N5GU6MrUw6pAja2MvvrqZDtL9A7yJeXHVJnPeMdtYpedDmv5ykM5uDdPXrPX91OcOTlXDvY1w9iuS4zMhkQ6LPsUMIa2sxF/e06bO23jjKmI9I9Xq7vf1xIGrsxzhLbMYc8Ntc4wmWuDi4yh28avdjPHR2c65MFit1fHs1YuyDIWygNfB1mPogp8oWydzyfs4RfMnPZjObsnCpVW8TX/rdsERra7kjzdRpLDCV6bzkSPazmLKwFP3aacB/cz7YLVh+wYwPyGODS6h3mBoO+yMWvIOSEUUcUO+Nat2C1iWIIg7CcnoIo=
+      file_glob: true
+      skip_cleanup: true
+      file: "./build/*"
+      on:
+        repo: Rokid/yoda-platform-tools
+        tags: true
