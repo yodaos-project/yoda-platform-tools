@@ -12,6 +12,7 @@
     "build": "tsc -p .",
     "watch": "tsc -watch -p ./",
     "clean": "rm -rf out",
+    "test": "npm run build",
     "ci": "npm run build"
   },
   "dependencies": {
