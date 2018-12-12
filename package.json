@@ -4,7 +4,8 @@
   "license": "Apache-2.0",
   "workspaces": [
     "yoda-cli",
-    "yoda-platform-lib"
+    "yoda-platform-lib",
+    "yoda-vscode"
   ],
   "scripts": {
     "build": "bash script/build.sh",

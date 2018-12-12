@@ -5,6 +5,7 @@
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc -p .",
     "watch": "tsc -watch -p ./",
     "clean": "rm -rf out",

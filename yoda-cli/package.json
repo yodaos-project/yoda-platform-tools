@@ -4,6 +4,7 @@
   "license": "Apache-2.0",
   "bin": "bin/yoda",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc -p .",
     "watch": "tsc -watch -p ./",
     "clean": "rm -rf out",
