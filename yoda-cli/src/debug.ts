@@ -1,4 +1,4 @@
-import * as program from 'commander'
+import program from './program'
 import Command from './cmd'
 import { printResult } from './util'
 
@@ -7,9 +7,6 @@ const DBusConnection = {
   objectPath: '/rokid/yoda/debug',
   interface: 'rokid.yoda.Debug'
 }
-
-program
-  .option('-s, --serial <sn>', 'use device with given serial')
 
 program
   .command('get-lifetime')
