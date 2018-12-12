@@ -1,9 +1,4 @@
 #!/usr/bin/env node
 
-require('source-map-support').install()
-require('../out/command-proxy.js').main({
-  type: 'dbus',
-  service: 'com.rokid.AmsExport',
-  objectPath: '/rokid/yoda/debug',
-  interface: 'rokid.yoda.Debug'
-}, process.argv.slice(2))
+require('source-map-support/register')
+require('../out/debug.js')

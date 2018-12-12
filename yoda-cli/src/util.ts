@@ -1,5 +1,6 @@
-import * as camelCase from 'lodash/camelCase'
 import { inspect } from 'util'
+// eslint-disable-next-line no-unused-vars
+import { PlatformSelector, PackageManager, IDBusConnection } from 'yoda-platform-lib'
 
 export function omit (object: object, ...keys: string[]) {
   if (object == null) {
@@ -19,23 +20,14 @@ export function omit (object: object, ...keys: string[]) {
   return ret
 }
 
-export function camelCaseKeys (object: object) {
-  if (object == null) {
-    return object
+export async function getClient (connection: IDBusConnection, serial?: string) {
+  const devices = await PlatformSelector.listDevices()
+  if (devices.length === 0) {
+    throw new Error('No device connected')
   }
-  var ret = {}
-  Object.keys(object).forEach(key => {
-    const casedKey = camelCase(key)
-    if (!casedKey) {
-      return
-    }
-    const desc = Object.getOwnPropertyDescriptor(object, key)
-    if (desc == null) {
-      return
-    }
-    Object.defineProperty(ret, casedKey, desc)
-  })
-  return ret
+  const client = new PackageManager(devices[0].id, connection)
+  await client.init()
+  return client
 }
 
 export function printResult (data: any, command?: string) {

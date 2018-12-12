@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-require('source-map-support').install()
-require('../out/package-manager.js').main(process.argv.slice(2))
+require('source-map-support/register')
+require('../out/pm.js')
