@@ -10,6 +10,10 @@ Tools to interact with YodaOS devices.
 
 Tool to interact with applications.
 
+##### yoda-am nlp <text>
+
+Parse the text and open appropriate app to handle parsed intent.
+
 ##### yoda-am open-url <url>
 
 Open a url on device. The url would be dispatched to an app registered for the hostname.

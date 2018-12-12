@@ -9,6 +9,14 @@ const DBusConnection = {
 }
 
 program
+  .command('nlp <text>')
+  .description('Parse the text and open appropriate app to handle parsed intent.')
+  .action(async (text, cmd) => {
+    const result = await Command('TextNLP', [text], DBusConnection, cmd.parent.serial)
+    printResult(result, 'text-nlp')
+  })
+
+program
   .command('open-url <url>')
   .description('Open a url on device. The url would be dispatched to an app registered for the hostname.')
   .action(async (url, cmd) => {
