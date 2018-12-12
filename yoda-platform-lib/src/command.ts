@@ -26,8 +26,9 @@ function generateDBusCommand (session: string, connection: IDBusConnection, meth
       case 'number':
         return `double:${arg}`
       case 'string':
-      case 'object':
         return `string:${JSON.stringify(arg)}`
+      case 'object':
+        return `string:${JSON.stringify(JSON.stringify(arg))}`
       default:
         throw new Error(`Undefined transform of argument type ${typeof arg}`)
     }

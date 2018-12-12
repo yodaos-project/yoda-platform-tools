@@ -19,7 +19,7 @@ export class PackageManager extends PlatformClient {
   }
 
   async path (packageName: string): Promise<string> {
-    const data = await this.jsonCommand('ListPackages', [ packageName ])
+    const data = await this.jsonCommand('ListPackages', [ { packageName } ])
     if (data.ok !== true) {
       const error = new Error('Unsuccessful command `ListPackages`')
       ;(error as any).data = data
