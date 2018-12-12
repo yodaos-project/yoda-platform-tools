@@ -13,7 +13,7 @@ program
 program
   .command('list')
   .action(async (cmd) => {
-    const client = await getClient(DBusConnection, cmd.serial)
+    const client = await getClient(DBusConnection, cmd.parent.serial)
     const result = await client.list()
     printResult(result)
   })
@@ -21,7 +21,7 @@ program
 program
   .command('path <package-name>')
   .action(async (packageName, cmd) => {
-    const client = await getClient(DBusConnection, cmd.serial)
+    const client = await getClient(DBusConnection, cmd.parent.serial)
     await client.init()
     const result = await client.path(packageName)
     console.log(result)
@@ -33,7 +33,7 @@ program
   .option('--install-path <path>', 'use path instead of default /opt/apps')
   .option('--install-name <name>', 'use name instead of package name on installation')
   .action(async (packagePath, cmd) => {
-    const client = await getClient(DBusConnection, cmd.serial)
+    const client = await getClient(DBusConnection, cmd.parent.serial)
     await client.init()
     const result = await client.install(packagePath, cmd)
     printResult(result)

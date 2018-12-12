@@ -21,11 +21,19 @@ export function omit (object: object, ...keys: string[]) {
 }
 
 export async function getClient (connection: IDBusConnection, serial?: string) {
-  const devices = await PlatformSelector.listDevices()
-  if (devices.length === 0) {
-    throw new Error('No device connected')
+  const devices: any[] = await PlatformSelector.listDevices()
+  let device: any
+  if (serial) {
+    device = devices.find(it => {
+      return it.id === serial
+    })
+  } else {
+    device = devices[0]
   }
-  const client = new PackageManager(devices[0].id, connection)
+  if (device == null) {
+    throw new Error('No requested device connected')
+  }
+  const client = new PackageManager(device.id, connection)
   await client.init()
   return client
 }
