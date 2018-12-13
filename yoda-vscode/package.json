@@ -1,10 +1,16 @@
 {
   "name": "yoda-vscode",
-  "displayName": "YodaOS",
+  "displayName": "YodaOS Dev Tools",
   "description": "YodaOS VSCode plugin",
   "version": "0.0.2",
+  "license": "Apache-2.0",
+  "publisher": "Rokid",
   "engines": {
     "vscode": "^1.29.0"
+  },
+  "preview": true,
+  "repository": {
+    "url": "https://github.com/Rokid/yoda-platform-tools"
   },
   "categories": [
     "Other"
@@ -14,31 +20,33 @@
   ],
   "main": "./out/extension",
   "contributes": {
-    "commands": [{
-      "command": "extension.pm.install",
-      "title": "YodaOS: Install App"
-    }],
+    "commands": [
+      {
+        "command": "extension.pm.install",
+        "title": "YodaOS: Install App"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "Yoda Dev Tools configuration",
       "properties": {
-          "yoda.installOptions": {
-              "type": "object",
-              "description": "Options on installation of YodaOS Apps.",
-              "properties": {
-                "installName": {
-                  "type": "string"
-                },
-                "installPrefix": {
-                  "type": "string"
-                },
-                "packageName": {
-                  "type": "string"
-                }
-              }
+        "yoda.installOptions": {
+          "type": "object",
+          "description": "Options on installation of YodaOS Apps.",
+          "properties": {
+            "installName": {
+              "type": "string"
+            },
+            "installPrefix": {
+              "type": "string"
+            },
+            "packageName": {
+              "type": "string"
+            }
           }
+        }
       }
-  }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run build",
@@ -51,9 +59,10 @@
     "yoda-platform-lib": "0.0.2"
   },
   "devDependencies": {
-    "typescript": "^3.1.4",
-    "vscode": "^1.1.25",
+    "@types/mocha": "^2.2.42",
     "@types/node": "^8.10.25",
-    "@types/mocha": "^2.2.42"
+    "typescript": "^3.1.4",
+    "vsce": "^1.53.2",
+    "vscode": "^1.1.25"
   }
 }
