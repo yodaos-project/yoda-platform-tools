@@ -1,12 +1,17 @@
 {
   "name": "yoda-platform-lib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "Apache-2.0",
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "files": [
     "bin",
     "out"
+  ],
+  "keywords": [
+    "YodaOS",
+    "platform",
+    "development"
   ],
   "scripts": {
     "prepublish": "npm run build",
