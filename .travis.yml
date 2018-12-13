@@ -18,6 +18,20 @@ jobs:
     - npm run ci
 
   - stage: deploy
+    name: Publish to registries
+    before_deploy:
+      - openssl aes-256-cbc -K $encrypted_b012ba568ee1_key -iv $encrypted_b012ba568ee1_iv -in script/.npmrc.enc -out $HOME\/.npmrc -d
+      - openssl aes-256-cbc -K $encrypted_561a8915efa5_key -iv $encrypted_561a8915efa5_iv -in script/.vsce.enc -out $HOME\/.vsce -d
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script:
+        - bash script/publish.sh
+      on:
+        repo: Rokid/yoda-platform-tools
+        tags: true
+
+  - stage: deploy
     name: Publish yoda-cli to GitHub Releases
     before_deploy:
       - npm run pkg
@@ -28,20 +42,6 @@ jobs:
       file_glob: true
       skip_cleanup: true
       file: "./build/*"
-      on:
-        repo: Rokid/yoda-platform-tools
-        tags: true
-
-  - stage: deploy
-    name: Publish to registries
-    before_deploy:
-      - openssl aes-256-cbc -K $encrypted_b012ba568ee1_key -iv $encrypted_b012ba568ee1_iv -in script\/.vsce.enc -out $HOME\/.vsce -d
-      - openssl aes-256-cbc -K $encrypted_b012ba568ee1_key -iv $encrypted_b012ba568ee1_iv -in script\/.npmrc.enc -out $HOME\/.npmrc -d
-    deploy:
-      provider: script
-      skip_cleanup: true
-      script:
-        - bash script/publish.sh
       on:
         repo: Rokid/yoda-platform-tools
         tags: true

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 export PKG_CACHE_PATH=$HOME/.pkg
 
