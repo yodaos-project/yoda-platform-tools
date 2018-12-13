@@ -1,5 +1,6 @@
 import program from './program'
 import { printResult, getClient } from './util'
+import { PackageManager } from 'yoda-platform-lib'
 
 const DBusConnection = {
   service: 'com.rokid.AmsExport',
@@ -12,7 +13,8 @@ program
   .description('Get info of all packages on device.')
   .action(async (cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
-    const result = await client.list()
+    const pm = new PackageManager(client)
+    const result = await pm.list()
     printResult(result, 'list')
   })
 
@@ -21,8 +23,8 @@ program
   .description('Get package directory on device.')
   .action(async (packageName, cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
-    await client.init()
-    const result = await client.path(packageName)
+    const pm = new PackageManager(client)
+    const result = await pm.path(packageName)
     printResult({ ok: true, result }, 'path')
   })
 
@@ -34,8 +36,8 @@ program
   .option('--install-name <name>', 'use name instead of package name on installation')
   .action(async (packagePath, cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
-    await client.init()
-    const result = await client.install(packagePath, cmd)
+    const pm = new PackageManager(client)
+    const result = await pm.install(packagePath, cmd)
     printResult(result, 'install')
   })
 

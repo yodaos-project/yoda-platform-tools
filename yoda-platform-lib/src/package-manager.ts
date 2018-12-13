@@ -2,6 +2,7 @@ import * as glob from 'glob'
 import { promisify } from 'util'
 import { join, relative } from 'path'
 import * as fs from 'fs'
+// eslint-disable-next-line no-unused-vars
 import { PlatformClient } from './command'
 
 const globAsync = promisify(glob)
@@ -13,19 +14,17 @@ export interface IInstallOptions {
   installPath?: string
 }
 
-export class PackageManager extends PlatformClient {
+export class PackageManager {
+  // eslint-disable-next-line no-useless-constructor
+  constructor (public client: PlatformClient) {}
+
   async list () {
-    return this.jsonCommand('ListPackages', [])
+    return this.client.jsonCommand('ListPackages', [])
   }
 
   async path (packageName: string): Promise<string> {
-    const data = await this.jsonCommand('ListPackages', [ { packageName } ])
-    if (data.ok !== true) {
-      const error = new Error('Unsuccessful command `ListPackages`')
-      ;(error as any).data = data
-      throw error
-    }
-    const appHome = data.result.appHome
+    const data = await this.client.jsonCommand('ListPackages', [ { packageName } ])
+    const appHome = data.appHome
     return appHome
   }
 
@@ -47,9 +46,9 @@ export class PackageManager extends PlatformClient {
     const files = await globAsync(join(packageLocalPath, '**', '*'))
     await Promise.all(files.map(file => {
       const remotePath = join(installPath, installName, relative(packageLocalPath, file))
-      return this.client.push(this.deviceId, file, remotePath)
+      return this.client.client.push(this.client.deviceId, file, remotePath)
     }))
-    return this.jsonCommand('Reload', [packageName])
+    return this.client.jsonCommand('Reload', [packageName])
   }
 
   async uninstall (packageName: string) {

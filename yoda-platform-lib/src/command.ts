@@ -84,9 +84,20 @@ export class PlatformClient {
     return output.toString()
   }
 
-  async jsonCommand (command: string, args: any[]): Promise<ICommandResult> {
+  async jsonCommand (command: string, args: any[]): Promise<any> {
     const output = await this.command(command, args)
-    const result = JSON.parse(output)
-    return result
+    let result: ICommandResult
+    try {
+      result = JSON.parse(output)
+    } catch (err) {
+      (err).data = output
+      throw err
+    }
+    if (result.ok !== true) {
+      const error: any = new Error(`Command Error: ${result.message}`)
+      error.deviceStack = error.stack
+      throw error
+    }
+    return result.result
   }
 }

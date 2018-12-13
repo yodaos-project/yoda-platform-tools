@@ -1,38 +1,59 @@
 {
-    "name": "yoda-vscode",
-    "displayName": "YodaOS",
-    "description": "YodaOS VSCode plugin",
-    "version": "0.0.2",
-    "engines": {
-        "vscode": "^1.29.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.sayHello"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
-    },
-    "scripts": {
-        "vscode:prepublish": "yarn run build",
-        "postinstall": "npx vscode-install",
-        "build": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "test": "yarn run build"
-    },
-    "dependencies": {
-      "yoda-platform-lib": "0.0.2"
-    },
-    "devDependencies": {
-        "typescript": "^3.1.4",
-        "vscode": "^1.1.25",
-        "@types/node": "^8.10.25",
-        "@types/mocha": "^2.2.42"
-    }
+  "name": "yoda-vscode",
+  "displayName": "YodaOS",
+  "description": "YodaOS VSCode plugin",
+  "version": "0.0.2",
+  "engines": {
+    "vscode": "^1.29.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.pm.install"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [{
+      "command": "extension.pm.install",
+      "title": "YodaOS: Install App"
+    }],
+    "configuration": {
+      "type": "object",
+      "title": "Yoda Dev Tools configuration",
+      "properties": {
+          "yoda.installOptions": {
+              "type": "object",
+              "description": "Options on installation of YodaOS Apps.",
+              "properties": {
+                "installName": {
+                  "type": "string"
+                },
+                "installPrefix": {
+                  "type": "string"
+                },
+                "packageName": {
+                  "type": "string"
+                }
+              }
+          }
+      }
+  }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run build",
+    "postinstall": "npx vscode-install",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "yarn run build"
+  },
+  "dependencies": {
+    "yoda-platform-lib": "0.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^3.1.4",
+    "vscode": "^1.1.25",
+    "@types/node": "^8.10.25",
+    "@types/mocha": "^2.2.42"
+  }
 }
