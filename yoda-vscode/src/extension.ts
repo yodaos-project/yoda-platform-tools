@@ -2,9 +2,9 @@
 import './wtf'
 import * as vscode from 'vscode'
 import * as yoda from 'yoda-platform-lib'
-import workspacePicker from './component/workspace-picker';
-import alertError from './component/alert-error';
-import { devicePicker } from './component/device-picker';
+import workspacePicker from './component/workspace-picker'
+import alertError from './component/alert-error'
+import { devicePicker } from './component/device-picker'
 
 export function activate (context: vscode.ExtensionContext) {
   console.log('Congratulations, vscode-yoda is now active!')

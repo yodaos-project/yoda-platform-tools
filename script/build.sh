@@ -38,3 +38,7 @@ cd -
 cd yoda-cli
   npm run build
 cd -
+
+cd yoda-vscode
+  npm run build
+cd -
