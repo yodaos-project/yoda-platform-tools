@@ -13,7 +13,7 @@
     "watch": "tsc -watch -p ./",
     "clean": "rm -rf out",
     "test": "npm run build",
-    "ci": "npm run build"
+    "ci": "npm run test"
   },
   "dependencies": {
     "commander": "^2.19.0",

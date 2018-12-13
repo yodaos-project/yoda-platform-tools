@@ -14,7 +14,7 @@
     "watch": "tsc -watch -p ./",
     "clean": "rm -rf out",
     "test": "npm run build",
-    "ci": "npm run build"
+    "ci": "npm run test"
   },
   "dependencies": {
     "adbkit": "^2.11.0",
