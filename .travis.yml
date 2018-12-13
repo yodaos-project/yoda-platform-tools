@@ -9,6 +9,7 @@ cache:
 
 install:
 - yarn
+- npx lerna bootstrap
 
 .npm_deploy_job_template: &npm_deploy_job_template
   deploy:

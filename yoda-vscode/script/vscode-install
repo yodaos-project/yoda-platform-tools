@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const packageJSON = require('../package.json')
+process.env.npm_package_engines_vscode = packageJSON.engines.vscode
+require('vscode/bin/install')
