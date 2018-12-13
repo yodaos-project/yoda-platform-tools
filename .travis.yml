@@ -55,12 +55,14 @@ jobs:
 
   - stage: deploy
     name: Publish yoda-vscode to VSCode Marketplace
-    skip_cleanup: true
-    on:
-      repo: Rokid/yoda-platform-tools
-      tags: true
     before_deploy:
       - cd yoda-vscode
       - openssl aes-256-cbc -K $encrypted_b012ba568ee1_key -iv $encrypted_b012ba568ee1_iv -in .vsce.enc -out $HOME\/.vsce -d
-    script:
-      - npx vsce publish --yarn
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script:
+        - npx vsce publish --yarn
+      on:
+        repo: Rokid/yoda-platform-tools
+        tags: true
