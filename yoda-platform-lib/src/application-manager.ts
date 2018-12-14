@@ -23,7 +23,7 @@ export class ApplicationManager {
   }
 
   async textNlp (text: string) {
-    return this.client.jsonCommand('TextNlp', [ text ])
+    return this.client.jsonCommand('TextNLP', [ text ])
   }
 
   async launch (packageName: string, options?: ILaunchOptions) {

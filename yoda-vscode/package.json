@@ -17,7 +17,8 @@
   ],
   "activationEvents": [
     "onCommand:extension.pm.launch",
-    "onCommand:extension.am.open-url"
+    "onCommand:extension.am.open-url",
+    "onCommand:extension.am.text-nlp"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -29,6 +30,10 @@
       {
         "command": "extension.am.open-url",
         "title": "YodaOS: Open Url"
+      },
+      {
+        "command": "extension.am.text-nlp",
+        "title": "YodaOS: Text Nlp"
       }
     ],
     "configuration": {

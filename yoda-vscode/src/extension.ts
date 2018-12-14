@@ -78,6 +78,25 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     }
 
     vscode.window.showInformationMessage(`Opened url '${url}'`)
+  },
+  'extension.am.text-nlp': async () => {
+    const deviceId = await devicePicker()
+    if (deviceId == null) {
+      alertError(new Error('No device available'))
+      return
+    }
+    const text = await vscode.window.showInputBox({
+      prompt: 'Text to be parsed and executed',
+      placeHolder: 'Salut!'
+    })
+    if (text == null) {
+      return
+    }
+    const client = await getClient(deviceId)
+    const am = new yoda.ApplicationManager(client)
+    await am.textNlp(text)
+
+    vscode.window.showInformationMessage(`Text sent: '${text}'`)
   }
 }
 
