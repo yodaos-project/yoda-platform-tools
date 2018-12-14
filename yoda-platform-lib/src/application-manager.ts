@@ -26,6 +26,10 @@ export class ApplicationManager {
     return this.client.jsonCommand('TextNLP', [ text ])
   }
 
+  async nlpIntent (text: string, nlp: object, action: object) {
+    return this.client.jsonCommand('NLPIntent', [ JSON.stringify({ text, nlp, action }) ])
+  }
+
   async launch (packageName: string, options?: ILaunchOptions) {
     const args: any[] = [ packageName ]
     if (options) {

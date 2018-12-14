@@ -1,6 +1,10 @@
+import * as fs from 'fs'
+import { promisify } from 'util'
 import program from './program'
 import Command from './cmd'
 import { printResult } from './util'
+
+const readFileAsync = promisify(fs.readFile)
 
 const DBusConnection = {
   service: 'com.rokid.AmsExport',
@@ -14,6 +18,16 @@ program
   .action(async (text, cmd) => {
     const result = await Command('TextNLP', [text], DBusConnection, cmd.parent.serial)
     printResult(result, 'text-nlp')
+  })
+
+program
+  .command('intent <file>')
+  .description('Send parsed NLP intent to device.')
+  .action(async (file, cmd) => {
+    const content = await readFileAsync(file, 'utf8')
+    const obj = JSON.parse(content)
+    const result = await Command('NLPIntent', [ obj ], DBusConnection, cmd.parent.serial)
+    printResult(result, 'nlp-intent')
   })
 
 program
