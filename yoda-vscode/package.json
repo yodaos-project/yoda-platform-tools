@@ -16,7 +16,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.pm.launch"
+    "onCommand:extension.pm.launch",
+    "onCommand:extension.am.open-url"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -24,6 +25,10 @@
       {
         "command": "extension.pm.launch",
         "title": "YodaOS: Launch App"
+      },
+      {
+        "command": "extension.am.open-url",
+        "title": "YodaOS: Open Url"
       }
     ],
     "configuration": {

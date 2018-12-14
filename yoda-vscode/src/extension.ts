@@ -2,14 +2,13 @@
 import './wtf'
 import * as vscode from 'vscode'
 import * as yoda from 'yoda-platform-lib'
+import { URL } from 'url'
 import workspacePicker from './component/workspace-picker'
 import alertError from './component/alert-error'
 import { devicePicker } from './component/device-picker'
 
-export function activate (context: vscode.ExtensionContext) {
-  console.log('Congratulations, vscode-yoda is now active!')
-
-  const disposable = vscode.commands.registerCommand('extension.pm.launch', async () => {
+const Commands: { [key: string]: (...args: any[]) => any } = {
+  'extension.pm.launch': async () => {
     const workspace = await workspacePicker()
     if (workspace == null) {
       alertError(new Error('No workspace available'))
@@ -44,9 +43,52 @@ export function activate (context: vscode.ExtensionContext) {
     data = await am.launch(packageName)
 
     vscode.window.showInformationMessage(`App(${packageName}) started`)
-  })
+  },
+  'extension.am.open-url': async () => {
+    const deviceId = await devicePicker()
+    if (deviceId == null) {
+      alertError(new Error('No device available'))
+      return
+    }
+    const url = await vscode.window.showInputBox({
+      prompt: 'Url to be opened',
+      placeHolder: 'yoda-skill://app-host/pathname',
+      validateInput: (value: string) => {
+        let urlObj
+        try {
+          urlObj = new URL(value)
+        } catch (e) {
+          return e.message
+        }
+        if (urlObj.protocol !== 'yoda-skill:') {
+          return 'Only schema `yoda-skill` could be handled.'
+        }
+        return null
+      }
+    })
+    if (url == null) {
+      return
+    }
+    const client = await getClient(deviceId)
+    const am = new yoda.ApplicationManager(client)
+    const data = await am.openUrl(url)
+    if (data == null) {
+      alertError(new Error('Unable to get result of device'))
+      return
+    }
 
-  context.subscriptions.push(disposable)
+    vscode.window.showInformationMessage(`Opened url '${url}'`)
+  }
+}
+
+export function activate (context: vscode.ExtensionContext) {
+  console.log('Congratulations, vscode-yoda is now active!')
+
+  Object.keys(Commands).forEach(it => {
+    const handler = Commands[it]
+    const disposable = vscode.commands.registerCommand(it, handler)
+    context.subscriptions.push(disposable)
+  })
 }
 
 // this method is called when your extension is deactivated
