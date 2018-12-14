@@ -9,7 +9,7 @@ import { devicePicker } from './component/device-picker'
 export function activate (context: vscode.ExtensionContext) {
   console.log('Congratulations, vscode-yoda is now active!')
 
-  const disposable = vscode.commands.registerCommand('extension.pm.install', async () => {
+  const disposable = vscode.commands.registerCommand('extension.pm.launch', async () => {
     const workspace = await workspacePicker()
     if (workspace == null) {
       alertError(new Error('No workspace available'))
@@ -22,11 +22,16 @@ export function activate (context: vscode.ExtensionContext) {
       return
     }
 
-    let installOptions = vscode.workspace.getConfiguration('yoda', null).get('installOptions')
+    let installOptions: yoda.IInstallOptions | undefined = vscode.workspace.getConfiguration('yoda', null).get('installOptions')
+    if (installOptions == null) {
+      installOptions = {}
+    }
 
     const client = await getClient(deviceId)
     const pm = new yoda.PackageManager(client)
-    const data = await pm.install(workspace, installOptions)
+    const packageName = installOptions.packageName || await pm.resolvePackageName(workspace)
+    installOptions.packageName = packageName
+    let data = await pm.install(workspace, installOptions)
     if (data == null) {
       alertError(new Error('Unable to get result of device'))
       return
@@ -34,6 +39,11 @@ export function activate (context: vscode.ExtensionContext) {
     console.log(data)
 
     vscode.window.showInformationMessage(`Installed to ${data.appHome}`)
+
+    const am = new yoda.ApplicationManager(client)
+    data = await am.launch(packageName)
+
+    vscode.window.showInformationMessage(`App(${packageName}) started`)
   })
 
   context.subscriptions.push(disposable)

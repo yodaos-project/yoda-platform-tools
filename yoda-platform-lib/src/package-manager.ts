@@ -28,16 +28,20 @@ export class PackageManager {
     return appHome
   }
 
-  async install (packageLocalPath: string, options?: IInstallOptions) {
+  async resolvePackageName (packageLocalPath: string) {
     const packageJsonStr = await readFileAsync(join(packageLocalPath, 'package.json'), 'utf8')
     const packageJson = JSON.parse(packageJsonStr)
+    return packageJson.name
+  }
+
+  async install (packageLocalPath: string, options?: IInstallOptions) {
     if (options == null) {
       options = {}
     }
-    let packageName = options.packageName
     const installPath = options.installPath || '/opt/apps'
+    let packageName = options.packageName
     if (packageName == null) {
-      packageName = packageJson.name
+      packageName = await this.resolvePackageName(packageLocalPath)
     }
     if (packageName == null) {
       throw new Error('Could not determine package name.')
