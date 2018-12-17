@@ -28,7 +28,7 @@ jobs:
       script:
         - bash script/publish.sh
       on:
-        repo: Rokid/yoda-platform-tools
+        repo: yodaos-project/yoda-platform-tools
         tags: true
 
   - stage: deploy
@@ -43,5 +43,5 @@ jobs:
       skip_cleanup: true
       file: "./build/*"
       on:
-        repo: Rokid/yoda-platform-tools
+        repo: yodaos-project/yoda-platform-tools
         tags: true

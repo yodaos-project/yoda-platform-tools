@@ -1,42 +1,32 @@
 # yoda-platform-tools
 
-[![Build Status](https://travis-ci.com/Rokid/yoda-platform-tools.svg?branch=master)](https://travis-ci.com/Rokid/yoda-platform-tools)
+[![Build Status](https://travis-ci.com/yodaos-project/yoda-platform-tools.svg?branch=master)](https://travis-ci.com/yodaos-project/yoda-platform-tools)
 
 Tools to interact with YodaOS devices.
 
-## Usage
+## Libraries
 
-### yoda-am
+##### yoda-cli
 
-Tool to interact with applications.
+A command line interface provides sets of tools to play with YodaOS devices.
 
-##### yoda-am nlp <text>
+##### yoda-platform-lib
 
-Parse the text and open appropriate app to handle parsed intent.
+A library provides base functionality to enable multiple tool to talk to YodaOS devices.
 
-##### yoda-am open-url <url>
+##### yoda-vscode
 
-Open a url on device. The url would be dispatched to an app registered for the hostname.
+A VSCode extension provides easy commands on YodaOS devices and apps installation from workspaces.
 
-##### yoda-am launch <package-name>
+## Get Started
 
-Launch an app on device.
+##### Setup development environment
 
-##### yoda-am force-stop <package-name>
-
-Force stop an app on device.
-
-
-### yoda-pm
-
-##### yoda-pm list
-
-Get info of all packages on device.
-
-##### yoda-pm path <package-name>
-
-Get package directory on device.
-
-##### yoda-pm install <package-local-path>
-
-Install an app from local package path.
+```sh
+# get development tool installed
+> yarn
+# get dependencies installed
+> lerna bootstrap
+# build all projects
+> bash ./script/build.sh
+```
