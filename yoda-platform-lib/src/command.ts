@@ -1,4 +1,5 @@
 import * as adb from 'adbkit'
+import * as path from 'path'
 
 export interface IDBusConnection {
   service: string
@@ -58,13 +59,21 @@ export class PlatformClient {
   ) {}
 
   async init () {
-    await this.checkAvailability()
+    await this.assertAvailability()
     this.sessionAddress = await this.getDBusSession()
   }
 
-  async checkAvailability () {
+  async assertAvailability () {
     const version = await this.client.version()
-    return version >= 40
+    if (version < 40) {
+      throw new Error(`Requires adb version >= 40, got ${version}`)
+    }
+    const dbusSendPath = await this.client.shell(this.deviceId, '/usr/bin/which dbus-send')
+      .then(adb.util.readAll)
+      .then((it: Buffer) => it.toString().trim())
+    if (!path.isAbsolute(dbusSendPath)) {
+      throw new Error('dbus-send is not available on device')
+    }
   }
 
   async getDBusSession () {
