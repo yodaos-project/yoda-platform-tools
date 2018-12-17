@@ -12,6 +12,9 @@
     "cli",
     "development"
   ],
+  "repository": {
+    "url": "https://github.com/yodaos-project/yoda-platform-tools"
+  },
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc -p .",
