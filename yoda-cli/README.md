@@ -1,5 +1,7 @@
 # yoda-cli
 
+[![Build Status](https://travis-ci.com/yodaos-project/yoda-platform-tools.svg?branch=master)](https://travis-ci.com/yodaos-project/yoda-platform-tools)
+
 Command line interface to interact with YodaOS devices.
 
 ## Usage

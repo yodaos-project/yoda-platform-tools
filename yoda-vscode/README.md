@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/yodaos-project/yoda-platform-tools.svg?branch=master)](https://travis-ci.com/yodaos-project/yoda-platform-tools)
 [![Licence](https://img.shields.io/github/license/yodaos-project/yoda-platform-tools.svg)](https://github.com/yodaos-project/yoda-platform-tools)
-[![VS Code Marketplace](https://vsmarketplacebadge.apphb.com/version-short/Rokid.yoda-vscode.svg)![Rating](https://vsmarketplacebadge.apphb.com/rating-short/Rokid.yoda-vscode.svg) ![Installs](https://vsmarketplacebadge.apphb.com/installs/Rokid.yoda-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=Rokid.yoda-vscode)
+[![VS Code Marketplace](https://vsmarketplacebadge.apphb.com/version-short/yodaos.yoda-vscode.svg)![Rating](https://vsmarketplacebadge.apphb.com/rating-short/yodaos.yoda-vscode.svg) ![Installs](https://vsmarketplacebadge.apphb.com/installs/yodaos.yoda-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=yodaos.yoda-vscode)
 
 ## Features
 

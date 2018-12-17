@@ -20,8 +20,8 @@ jobs:
   - stage: deploy
     name: Publish to registries
     before_deploy:
-      - openssl aes-256-cbc -K $encrypted_b012ba568ee1_key -iv $encrypted_b012ba568ee1_iv -in script/.npmrc.enc -out $HOME\/.npmrc -d
-      - openssl aes-256-cbc -K $encrypted_561a8915efa5_key -iv $encrypted_561a8915efa5_iv -in script/.vsce.enc -out $HOME\/.vsce -d
+      - openssl aes-256-cbc -K $encrypted_db2434ae3257_key -iv $encrypted_db2434ae3257_iv -in script/.npmrc.enc -out $HOME\/.npmrc -d
+      - openssl aes-256-cbc -K $encrypted_db2434ae3257_key -iv $encrypted_db2434ae3257_iv -in script/.vsce.enc -out $HOME\/.vsce -d
     deploy:
       provider: script
       skip_cleanup: true
