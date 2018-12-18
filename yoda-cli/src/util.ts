@@ -40,5 +40,9 @@ export async function getClient (connection: IDBusConnection, serial?: string) {
 }
 
 export function printResult (data: any, command?: string) {
+  if (data instanceof Error) {
+    signale.error(...[command, data].filter(it => it !== undefined))
+    return
+  }
   signale.success(command, '\n', inspect(data, false, null, true))
 }
