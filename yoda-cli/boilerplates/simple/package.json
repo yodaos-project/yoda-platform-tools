@@ -1,0 +1,40 @@
+{
+  "name": "{{name}}",
+  "version": "1.0.0",
+  {{#description}}
+  "description": "{{description}}",
+  {{/description}}
+  "main": "app.js",
+  {{#private}}
+  "private": true,
+  {{/private}}
+  {{#license}}
+  "license": "{{license}}",
+  {{/license}}
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "metadata": {
+    {{#skills}}
+    "skills": [
+      {{#skillOptions}}
+      ["{{skillId}}", {{skillOptions}}]{{^isLast}},{{/isLast}}
+      {{/skillOptions}}
+      {{^skillOptions}}
+      "{{skillId}}"{{^isLast}},{{/isLast}}
+      {{/skillOptions}}
+    ],
+    {{/skills}}
+    "permission": [
+      {{#permissions}}
+      "{{name}}"{{^isLast}},{{/isLast}}
+      {{/permissions}}
+    ]
+  },
+  {{#keywords}}
+  "keywords": [
+    "{{name}}"{{^isLast}},{{/isLast}}
+  ],
+  {{/keywords}}
+  "dependencies": {}
+}

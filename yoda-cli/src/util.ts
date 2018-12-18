@@ -1,3 +1,5 @@
+import * as fs from 'fs'
+import * as path from 'path'
 import { inspect } from 'util'
 import * as signale from 'signale'
 // eslint-disable-next-line no-unused-vars
@@ -45,4 +47,33 @@ export function printResult (data: any, command?: string) {
     return
   }
   signale.success(command, '\n', inspect(data, false, null, true))
+}
+
+export function mkdirp (dir: string, callback: (error: Error | null) => void) {
+  fs.mkdir(dir, (err) => {
+    if (err == null) {
+      return callback(null)
+    }
+    if (err.code === 'ENOENT') {
+      mkdirp(path.dirname(dir), (err) => {
+        if (err) {
+          return callback(err)
+        }
+        mkdirp(dir, callback)
+      }) /** mkdirp */
+      return
+    }
+    fs.stat(dir, (err, stat) => {
+      if (err) {
+        return callback(err)
+      }
+      if (!stat.isDirectory()) {
+        var eexist = new Error(`Target ${dir} exists yet is not a directory`)
+        ;(eexist as any).path = dir
+        ;(eexist as any).code = 'EEXIST'
+        return callback(eexist)
+      }
+      return callback(null)
+    }) /** fs.stat */
+  }) /** fs.mkdir */
 }
