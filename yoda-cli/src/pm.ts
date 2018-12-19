@@ -41,4 +41,4 @@ program
     printResult(result, 'install')
   })
 
-program.parse(process.argv)
+export default program

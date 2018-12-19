@@ -23,6 +23,10 @@
     "test": "npm run build",
     "ci": "npm run test"
   },
+  "pkg": {
+    "scripts": [ "out/**/*.js" ],
+    "assets": [ "boilerplates/**/*" ]
+  },
   "dependencies": {
     "commander": "^2.19.0",
     "glob": "^7.1.3",

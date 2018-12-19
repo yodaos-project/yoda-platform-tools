@@ -2,4 +2,5 @@
 
 require('source-map-support/register')
 require('../out/wtf.js')
-require('../out/pm.js')
+require('../out/pm.js').default
+  .parse(process.argv)

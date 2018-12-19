@@ -50,4 +50,4 @@ program
     printResult(result, 'mock-key')
   })
 
-program.parse(process.argv)
+export default program

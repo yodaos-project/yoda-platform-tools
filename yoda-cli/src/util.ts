@@ -23,6 +23,16 @@ export function omit (object: object, ...keys: string[]) {
   return ret
 }
 
+export function any <T> (arr: T[], ...items: T[]) {
+  for (const item of items) {
+    const include = arr.indexOf(item) >= 0
+    if (include) {
+      return true
+    }
+  }
+  return false
+}
+
 export async function getClient (connection: IDBusConnection, serial?: string) {
   const devices: any[] = await PlatformSelector.listDevices()
   let device: any

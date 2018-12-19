@@ -75,4 +75,4 @@ program
     printResult(result, 'force-stop')
   })
 
-program.parse(process.argv)
+export default program

@@ -5,11 +5,20 @@ program
   .version(PackageJson.version)
   .option('-s, --serial <sn>', 'use device with given serial')
 
-program
-  .command('*')
-  .action(() => {
-    program.outputHelp()
-    process.exit(1)
-  })
+program.on('command:*', function () {
+  console.error('Invalid command: %s\n', program.args.join(' '))
+  program.outputHelp()
+  process.exit(1)
+})
+
+const parse = program.parse
+;(program as any).parse = function (argv: string[]) {
+  if (argv.length < 3) {
+    // this user needs help
+    argv.push('--help')
+  }
+
+  return parse.call(program, argv)
+}
 
 export default program
