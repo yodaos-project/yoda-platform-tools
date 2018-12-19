@@ -1,6 +1,6 @@
 {
   "name": "yoda-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "Apache-2.0",
   "bin": "bin/yoda",
   "files": [
@@ -24,8 +24,12 @@
     "ci": "npm run test"
   },
   "pkg": {
-    "scripts": [ "out/**/*.js" ],
-    "assets": [ "boilerplates/**/*" ]
+    "scripts": [
+      "out/**/*.js"
+    ],
+    "assets": [
+      "boilerplates/**/*"
+    ]
   },
   "dependencies": {
     "commander": "^2.19.0",
@@ -35,7 +39,7 @@
     "prompts": "^2.0.0",
     "signale": "^1.3.0",
     "source-map-support": "^0.5.9",
-    "yoda-platform-lib": "^0.0.6"
+    "yoda-platform-lib": "^0.0.7"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
