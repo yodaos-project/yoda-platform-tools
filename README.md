@@ -4,6 +4,12 @@
 
 Tools to interact with YodaOS devices.
 
+## Get Started
+
+`yoda-cli` pre-built binaries could be downloaded from [Releases Page](https://github.com/yodaos-project/yoda-platform-tools/releases).
+
+VSCode extension could be downloaded from [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=yodaos.yoda-vscode). Also it could be directly downloaded from VSCode by searching `YodaOS Dev Tools`.
+
 ## Libraries
 
 ##### yoda-cli
