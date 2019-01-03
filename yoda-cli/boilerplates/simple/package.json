@@ -12,7 +12,9 @@
   "license": "{{license}}",
   {{/license}}
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:js": "standard",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "yoda:install": "yoda-cli pm install ."
   },
   "manifest": {
     "skills": [
@@ -31,5 +33,9 @@
     "{{keyword}}"{{^isLast}},{{/isLast}}
   ],
   {{/keywords}}
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "^12.0.1",
+    "yoda-cli": "^0.0.7"
+  }
 }
