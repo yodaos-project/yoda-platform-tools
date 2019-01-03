@@ -1,6 +1,6 @@
 {
   "name": "yoda-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "Apache-2.0",
   "bin": "bin/yoda",
   "files": [
@@ -39,7 +39,7 @@
     "prompts": "^2.0.0",
     "signale": "^1.3.0",
     "source-map-support": "^0.5.9",
-    "yoda-platform-lib": "^0.0.7"
+    "yoda-platform-lib": "^0.0.8"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
