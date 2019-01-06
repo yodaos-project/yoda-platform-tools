@@ -45,13 +45,16 @@
           "description": "Options on installation of YodaOS Apps.",
           "properties": {
             "installName": {
-              "type": "string"
+              "type": "string",
+              "description": "Custom app name on installation instead of default packageName"
             },
-            "installPrefix": {
-              "type": "string"
+            "installPath": {
+              "type": "string",
+              "description": "Custom path to install apps instead of default `/opt/apps`"
             },
             "packageName": {
-              "type": "string"
+              "type": "string",
+              "description": "Override `name` in package.json"
             }
           }
         }
