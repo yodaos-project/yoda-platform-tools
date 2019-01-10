@@ -86,6 +86,10 @@ export class PlatformClient {
     return match[1]
   }
 
+  generateCommand (command: string, args: any[]): string {
+    return generateDBusCommand(this.sessionAddress!, this.connection, command, args)
+  }
+
   async command (command: string, args: any[]): Promise<string> {
     const cmd = generateDBusCommand(this.sessionAddress!, this.connection, command, args)
     const output: Buffer = await this.client.shell(this.deviceId, cmd)

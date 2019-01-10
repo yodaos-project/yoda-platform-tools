@@ -12,7 +12,7 @@ program
   .command('get-lifetime')
   .description('Get YodaOS lifetime stats.')
   .action(async (cmd) => {
-    const result = await Command('GetLifetime', [], DBusConnection, cmd.parent.serial)
+    const result = await Command('GetLifetime', [], DBusConnection, cmd.parent)
     printResult(result, 'get-lifetime')
   })
 
@@ -20,7 +20,7 @@ program
   .command('get-turen-state')
   .description('Get YodaOS wake up stats.')
   .action(async (cmd) => {
-    const result = await Command('GetTurenState', [], DBusConnection, cmd.parent.serial)
+    const result = await Command('GetTurenState', [], DBusConnection, cmd.parent)
     printResult(result, 'get-turen-state')
   })
 
@@ -28,7 +28,7 @@ program
   .command('get-loader')
   .description('Get YodaOS application loader stats.')
   .action(async (cmd) => {
-    const result = await Command('GetLoader', [], DBusConnection, cmd.parent.serial)
+    const result = await Command('GetLoader', [], DBusConnection, cmd.parent)
     printResult(result, 'get-loader')
   })
 
@@ -36,7 +36,7 @@ program
   .command('mock-asr <text>')
   .description('Mock a voice command.')
   .action(async (text, cmd) => {
-    const result = await Command('mockAsr', [text], DBusConnection, cmd.parent.serial)
+    const result = await Command('mockAsr', [text], DBusConnection, cmd.parent)
     printResult(result, 'mock-asr')
   })
 
@@ -46,7 +46,7 @@ program
   .action(async (event, keyCode, cmd) => {
     const result = await Command('mockKeyboard', [
       JSON.stringify({ event, keyCode, keyTime: Date.now() })
-    ], DBusConnection, cmd.parent.serial)
+    ], DBusConnection, cmd.parent)
     printResult(result, 'mock-key')
   })
 
@@ -65,18 +65,18 @@ program
 
     await Command('mockKeyboard', [
       JSON.stringify({ event: 'keydown', keyCode, keyTime: 0 })
-    ], DBusConnection, cmd.parent.serial)
+    ], DBusConnection, cmd.parent)
 
     for (let idx = 0; idx < times; ++idx) {
       await sleep(eventWindow)
       await Command('mockKeyboard', [
         JSON.stringify({ event: 'longpress', keyCode, keyTime: (idx + 1) * eventWindow })
-      ], DBusConnection, cmd.parent.serial)
+      ], DBusConnection, cmd.parent)
     }
 
     await Command('mockKeyboard', [
       JSON.stringify({ event: 'keyup', keyCode, keyTime: (times + 1) * eventWindow })
-    ], DBusConnection, cmd.parent.serial)
+    ], DBusConnection, cmd.parent)
 
     printResult(null, 'mock-key')
   })

@@ -4,6 +4,7 @@ import * as PackageJson from '../package.json'
 program
   .version(PackageJson.version)
   .option('-s, --serial <sn>', 'use device with given serial')
+  .option('--verbose', 'log verbosely')
 
 program.on('command:*', function () {
   console.error('Invalid command: %s\n', program.args.join(' '))

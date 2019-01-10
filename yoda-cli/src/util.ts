@@ -1,9 +1,19 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { inspect } from 'util'
-import * as signale from 'signale'
+import { Signale } from 'signale'
 // eslint-disable-next-line no-unused-vars
 import { PlatformSelector, IDBusConnection, PlatformClient } from 'yoda-platform-lib'
+
+export const signale = new Signale({
+  types: {
+    verbose: {
+      badge: '> ',
+      color: 'grey',
+      label: 'verbose'
+    }
+  }
+})
 
 export function omit (object: object, ...keys: string[]) {
   if (object == null) {
