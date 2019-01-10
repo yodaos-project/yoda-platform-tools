@@ -50,7 +50,6 @@ program
     printResult(result, 'mock-key')
   })
 
-
 program
   .command('mock-key-longpress <key-code> <press-time> [event-window]')
   .description('Mock a key longpress gesture.')
