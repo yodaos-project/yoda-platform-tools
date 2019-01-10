@@ -1,6 +1,6 @@
 import program from './program'
 import Command from './cmd'
-import { printResult } from './util'
+import { printResult, sleep } from './util'
 
 const DBusConnection = {
   service: 'com.rokid.AmsExport',
@@ -48,6 +48,37 @@ program
       JSON.stringify({ event, keyCode, keyTime: Date.now() })
     ], DBusConnection, cmd.parent.serial)
     printResult(result, 'mock-key')
+  })
+
+
+program
+  .command('mock-key-longpress <key-code> <press-time> [event-window]')
+  .description('Mock a key longpress gesture.')
+  .action(async (keyCode, pressTime, eventWindow, cmd) => {
+    if (!eventWindow) {
+      eventWindow = 500
+    }
+    var times = pressTime / eventWindow
+    if (!Number.isInteger(times)) {
+      throw new Error('pressTime / eventWindow is not a integer.')
+    }
+
+    await Command('mockKeyboard', [
+      JSON.stringify({ event: 'keydown', keyCode, keyTime: 0 })
+    ], DBusConnection, cmd.parent.serial)
+
+    for (let idx = 0; idx < times; ++idx) {
+      await sleep(eventWindow)
+      await Command('mockKeyboard', [
+        JSON.stringify({ event: 'longpress', keyCode, keyTime: (idx + 1) * eventWindow })
+      ], DBusConnection, cmd.parent.serial)
+    }
+
+    await Command('mockKeyboard', [
+      JSON.stringify({ event: 'keyup', keyCode, keyTime: (times + 1) * eventWindow })
+    ], DBusConnection, cmd.parent.serial)
+
+    printResult(null, 'mock-key')
   })
 
 export default program

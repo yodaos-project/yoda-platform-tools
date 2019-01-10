@@ -40,3 +40,30 @@ Get package directory on device.
 ##### yoda-pm install <package-local-path>
 
 Install an app from local package path.
+
+
+### yoda-debug
+
+##### yoda-debug get-lifetime
+
+Get YodaOS lifetime stats.
+
+##### yoda-debug get-turen-state
+
+Get YodaOS wake up stats.
+
+#####yoda-debug get-loader
+
+Get YodaOS application loader stats.
+
+#####yoda-debug mock-asr <text>
+
+Mock a voice command.
+
+#####yoda-debug mock-key <event> <key-code>
+
+Mock a key event.
+
+#####yoda-debug mock-key-longpress <key-code> <press-time> [event-window]
+
+Mock a key longpress gesture.

@@ -87,3 +87,7 @@ export function mkdirp (dir: string, callback: (error: Error | null) => void) {
     }) /** fs.stat */
   }) /** fs.mkdir */
 }
+
+export function sleep (ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
