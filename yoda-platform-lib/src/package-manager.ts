@@ -7,6 +7,7 @@ import { PlatformClient } from './command'
 
 const globAsync = promisify(glob)
 const readFileAsync = promisify(fs.readFile)
+const statAsync = promisify(fs.stat)
 
 export interface IInstallOptions {
   packageName?: string
@@ -28,29 +29,56 @@ export class PackageManager {
     return appHome
   }
 
-  async resolvePackageName (packageLocalPath: string) {
+  async resolvePackage (packageLocalPath: string) {
     const packageJsonStr = await readFileAsync(join(packageLocalPath, 'package.json'), 'utf8')
-    const packageJson = JSON.parse(packageJsonStr)
-    return packageJson.name
+    return JSON.parse(packageJsonStr)
   }
 
   async install (packageLocalPath: string, options?: IInstallOptions) {
     if (options == null) {
       options = {}
     }
+    const packageJson = await this.resolvePackage(packageLocalPath)
     const installPath = options.installPath || '/opt/apps'
     let packageName = options.packageName
     if (packageName == null) {
-      packageName = await this.resolvePackageName(packageLocalPath)
+      packageName = packageJson.name
     }
     if (packageName == null) {
       throw new Error('Could not determine package name.')
     }
     const installName = options.installName || packageName
-    const files = await globAsync(join(packageLocalPath, '**', '*'))
-    await Promise.all(files.map(file => {
+    let files: string[]
+    if (Array.isArray(packageJson.files)) {
+      const res = await Promise.all(
+        (packageJson.files as string[]).map(it => globAsync(join(packageLocalPath, it)))
+      )
+      files = res.reduce((accu, it) => accu.concat(it), [])
+    } else {
+      files = await globAsync(join(packageLocalPath, '**', '*'))
+    }
+    const packageJsonPath = join(packageLocalPath, 'package.json')
+    if (files.indexOf(packageJsonPath) < 0) {
+      files = files.concat(packageJsonPath)
+    }
+    await Promise.all(files.map(async file => {
+      const stat = await statAsync(file)
       const remotePath = join(installPath, installName, relative(packageLocalPath, file))
-      return this.client.client.push(this.client.deviceId, file, remotePath)
+      await this.client.client.shell(this.client.deviceId, `rm -rf ${remotePath}`)
+        .catch(() => {})
+      switch (true) {
+        case stat.isDirectory(): {
+          await this.client.client.shell(this.client.deviceId, `mkdir -p ${remotePath}`)
+          break
+        }
+        case stat.isFile(): {
+          await this.client.client.push(this.client.deviceId, file, remotePath)
+          break
+        }
+        default: {
+          console.log(`Unknown file type '${file}'`)
+        }
+      }
     }))
     return this.client.jsonCommand('Reload', [packageName])
   }

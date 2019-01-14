@@ -28,7 +28,8 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
 
     const client = await getClient(deviceId)
     const pm = new yoda.PackageManager(client)
-    const packageName = installOptions.packageName || await pm.resolvePackageName(workspace)
+    const packageJson = await pm.resolvePackage(workspace)
+    const packageName = installOptions.packageName || packageJson.name
     installOptions.packageName = packageName
     let data = await pm.install(workspace, installOptions)
     if (data == null) {
