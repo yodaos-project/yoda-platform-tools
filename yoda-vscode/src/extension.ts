@@ -33,7 +33,7 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     installOptions.packageName = packageName
     let data = await pm.install(workspace, installOptions)
     if (data == null) {
-      alertError(new Error('Unable to get result of device'))
+      alertError(new Error('Unable to get result of installation'))
       return
     }
     console.log(data)
@@ -74,7 +74,7 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     const am = new yoda.ApplicationManager(client)
     const data = await am.openUrl(url)
     if (data == null) {
-      alertError(new Error('Unable to get result of device'))
+      alertError(new Error('Unable to get result of open url'))
       return
     }
 

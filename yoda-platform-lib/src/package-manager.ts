@@ -68,11 +68,19 @@ export class PackageManager {
         .catch(() => {})
       switch (true) {
         case stat.isDirectory(): {
+          console.log(`installing directory(${file})`)
           await this.client.client.shell(this.client.deviceId, `mkdir -p ${remotePath}`)
+            .catch((err: Error) => {
+              throw new Error(`Failed to install directory(${file}: ${err.message}`)
+            })
           break
         }
         case stat.isFile(): {
+          console.log(`installing file(${file})`)
           await this.client.client.push(this.client.deviceId, file, remotePath)
+            .catch((err: Error) => {
+              throw new Error(`Failed to install file(${file}: ${err.message}`)
+            })
           break
         }
         default: {
