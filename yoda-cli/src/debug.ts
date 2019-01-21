@@ -33,6 +33,14 @@ program
   })
 
 program
+  .command('inspect [component]')
+  .description('Dump YodaRuntime component.')
+  .action(async (name, cmd) => {
+    const result = await Command('InspectComponent', [name].filter(it => !!it), DBusConnection, cmd.parent)
+    printResult(result, 'inspect-component')
+  })
+
+program
   .command('mock-asr <text>')
   .description('Mock a voice command.')
   .action(async (text, cmd) => {
