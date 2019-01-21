@@ -6,6 +6,7 @@ import { URL } from 'url'
 import workspacePicker from './component/workspace-picker'
 import alertError from './component/alert-error'
 import { devicePicker } from './component/device-picker'
+import { memo } from './memo'
 
 const Commands: { [key: string]: (...args: any[]) => any } = {
   'extension.pm.launch': async () => {
@@ -54,6 +55,7 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     const url = await vscode.window.showInputBox({
       prompt: 'Url to be opened',
       placeHolder: 'yoda-skill://app-host/pathname',
+      value: memo.lastOpenedUrl,
       validateInput: (value: string) => {
         let urlObj
         try {
@@ -77,6 +79,7 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
       alertError(new Error('Unable to get result of open url'))
       return
     }
+    memo.lastOpenedUrl = url
 
     vscode.window.showInformationMessage(`Opened url '${url}'`)
   },
@@ -88,7 +91,8 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     }
     const text = await vscode.window.showInputBox({
       prompt: 'Text to be parsed and executed',
-      placeHolder: 'Salut!'
+      placeHolder: 'Salut!',
+      value: memo.lastParsedNlp
     })
     if (text == null) {
       return
@@ -96,6 +100,8 @@ const Commands: { [key: string]: (...args: any[]) => any } = {
     const client = await getClient(deviceId)
     const am = new yoda.ApplicationManager(client)
     await am.textNlp(text)
+
+    memo.lastParsedNlp = text
 
     vscode.window.showInformationMessage(`Text sent: '${text}'`)
   }
