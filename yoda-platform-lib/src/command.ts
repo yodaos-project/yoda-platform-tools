@@ -1,5 +1,6 @@
 import * as adb from 'adbkit'
 import * as path from 'path'
+import * as process from 'process'
 
 export interface IDBusConnection {
   service: string
@@ -37,8 +38,14 @@ function generateDBusCommand (session: string, connection: IDBusConnection, meth
   return cmd.join(' ')
 }
 
+function gengrateADBClient () {
+  return adb.createClient({
+    port:  parseInt(process.env.ANDROID_ADB_SERVER_PORT || '')
+  })
+}
+
 export class PlatformSelector {
-  private static client = adb.createClient()
+  private static client = gengrateADBClient()
 
   // eslint-disable-next-line no-useless-constructor
   private constructor () {}
@@ -49,7 +56,7 @@ export class PlatformSelector {
 }
 
 export class PlatformClient {
-  client = adb.createClient()
+  client = gengrateADBClient()
   sessionAddress?: string
 
   // eslint-disable-next-line no-useless-constructor
