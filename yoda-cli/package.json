@@ -5,7 +5,8 @@
   "bin": "bin/yoda",
   "files": [
     "bin",
-    "out"
+    "out",
+    "boilerplates"
   ],
   "keywords": [
     "YodaOS",
