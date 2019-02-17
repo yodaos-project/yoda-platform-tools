@@ -41,7 +41,7 @@ program
   })
 
 program
-  .command('mock-asr <text>')
+  .command('mock-asr [text]')
   .description('Mock a voice command.')
   .action(async (text, cmd) => {
     const result = await Command('mockAsr', [text], DBusConnection, cmd.parent)
