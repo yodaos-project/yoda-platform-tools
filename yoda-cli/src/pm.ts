@@ -25,7 +25,7 @@ program
     const client = await getClient(DBusConnection, cmd.parent.serial)
     const pm = new PackageManager(client)
     const result = await pm.path(packageName)
-    printResult({ ok: true, result }, 'path')
+    printResult(result, 'path')
   })
 
 program

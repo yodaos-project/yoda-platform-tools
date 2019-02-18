@@ -1,5 +1,6 @@
 import * as adb from 'adbkit'
 import * as path from 'path'
+import { RequestError, CommandError } from './error'
 
 export interface IDBusConnection {
   service: string
@@ -103,13 +104,10 @@ export class PlatformClient {
     try {
       result = JSON.parse(output)
     } catch (err) {
-      (err).data = output
-      throw err
+      throw new RequestError(output)
     }
     if (result.ok !== true) {
-      const error: any = new Error(`Command Error: ${result.message}`)
-      error.deviceStack = error.stack
-      throw error
+      throw new CommandError(result.message, result.stack)
     }
     return result.result
   }

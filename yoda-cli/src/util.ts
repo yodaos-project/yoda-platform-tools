@@ -66,7 +66,7 @@ export function printResult (data: any, command?: string) {
     signale.error(...[command, data].filter(it => it !== undefined))
     return
   }
-  signale.success(command, '\n', inspect(data, false, null, true))
+  signale.success(command, '\n' + inspect(data, { colors: true, depth: null }))
 }
 
 export function mkdirp (dir: string, callback: (error: Error | null) => void) {
