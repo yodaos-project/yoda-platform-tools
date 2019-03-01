@@ -15,6 +15,10 @@ export const signale = new Signale({
   }
 })
 
+if (!process.stdout.isTTY) {
+  signale.disable()
+}
+
 export function omit (object: object, ...keys: string[]) {
   if (object == null) {
     return object
@@ -66,7 +70,12 @@ export function printResult (data: any, command?: string) {
     signale.error(...[command, data].filter(it => it !== undefined))
     return
   }
-  signale.success(command, '\n' + inspect(data, { colors: true, depth: null }))
+  signale.success(command)
+  if (!process.stdout.isTTY) {
+    console.log(JSON.stringify(data))
+    return
+  }
+  console.log(inspect(data, { colors: true, depth: null }))
 }
 
 export function mkdirp (dir: string, callback: (error: Error | null) => void) {
