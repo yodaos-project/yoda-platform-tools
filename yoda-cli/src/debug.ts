@@ -52,6 +52,10 @@ program
   .command('mock-key <event> <key-code>')
   .description('Mock a key event.')
   .action(async (event, keyCode, cmd) => {
+    keyCode = Number.parseInt(keyCode)
+    if (!Number.isInteger(keyCode)) {
+      throw new Error('Expect an integer keyCode.')
+    }
     const result = await Command('mockKeyboard', [
       JSON.stringify({ event, keyCode, keyTime: Date.now() })
     ], DBusConnection, cmd.parent)
