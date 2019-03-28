@@ -3,6 +3,7 @@ import { promisify } from 'util'
 import program from './program'
 import { printResult, getClient } from './util'
 import { ApplicationManager } from 'yoda-platform-lib'
+import { pick } from 'lodash'
 
 const readFileAsync = promisify(fs.readFile)
 
@@ -48,10 +49,11 @@ program
 program
   .command('open-url <url>')
   .description('Open a url on device. The url would be dispatched to an app registered for the hostname.')
+  .option('--form <form>')
   .action(async (url, cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
     const am = new ApplicationManager(client)
-    const result = await am.openUrl(url)
+    const result = await am.openUrl(url, pick(cmd, 'form'))
     printResult(result, 'open-url')
   })
 
