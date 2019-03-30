@@ -47,7 +47,7 @@ export function any <T> (arr: T[], ...items: T[]) {
   return false
 }
 
-export async function getClient (connection: IDBusConnection, serial?: string) {
+export async function getDevice (serial?: string) {
   const devices: any[] = await PlatformSelector.listDevices()
   let device: any
   if (serial) {
@@ -57,6 +57,11 @@ export async function getClient (connection: IDBusConnection, serial?: string) {
   } else {
     device = devices[0]
   }
+  return device
+}
+
+export async function getClient (connection: IDBusConnection, serial?: string) {
+  const device = await getDevice(serial)
   if (device == null) {
     throw new Error('No requested device connected')
   }

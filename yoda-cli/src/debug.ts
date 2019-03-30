@@ -1,6 +1,7 @@
 import program from './program'
 import Command from './cmd'
-import { printResult, sleep } from './util'
+import { printResult, sleep, getDevice } from './util'
+import { FloraClient } from 'yoda-platform-lib'
 
 const DBusConnection = {
   service: 'com.rokid.AmsExport',
@@ -90,6 +91,21 @@ program
     ], DBusConnection, cmd.parent)
 
     printResult(null, 'mock-key')
+  })
+
+program
+  .command('subscribe <name>')
+  .description('Subscribe an event.')
+  .action(async (name, cmd) => {
+    const device = await getDevice(cmd.serial)
+    if (device == null) {
+      throw new Error('No requested device connected')
+    }
+    const cli = new FloraClient(device.id)
+    await cli.init()
+    cli.subscribe(name, (msg: any[], type: number) => {
+      printResult(msg, name)
+    })
   })
 
 export default program
