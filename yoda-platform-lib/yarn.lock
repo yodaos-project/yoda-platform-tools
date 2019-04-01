@@ -93,7 +93,7 @@ debug@~2.6.3:
 
 flora@yodaos-project/node-flora#master:
   version "0.1.0"
-  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/9f0462e899716e1a694ef18b692f8376a16039c9"
+  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/340fb5c765705423b3b55a718a1af0b3695704cd"
   dependencies:
     node-addon-api "^1.6.2"
 

@@ -75,7 +75,12 @@ export function printResult (data: any, command?: string) {
     signale.error(...[command, data].filter(it => it !== undefined))
     return
   }
-  signale.success(command)
+  if (typeof command === 'string') {
+    signale.success(command)
+  }
+  if (data === undefined) {
+    return
+  }
   if (!process.stdout.isTTY) {
     console.log(JSON.stringify(data))
     return
