@@ -11,6 +11,21 @@ install:
 - yarn
 - npx lerna bootstrap
 
+.deploy_github_release_template: &deploy_github_release_template
+  before_deploy:
+    - npm run pkg
+    - tar -czf yoda-cli-${TRAVIS_TAG}-$(uname)-$(uname -m).tar.gz -C build $(cd build; ls)
+  deploy:
+    provider: releases
+    api_key:
+      secure: ojsNazT5ScROHDGZx36+tLFFWVhw/GJ2odVZgkAfNgNr0mTsNtIQPWhkFplqSWftQmLPT2RyXnwX94kkOFNwl6t7m4nw59Tuj9E1Vbt1JC/+x+uibVK/dM7CluQU4BqXYNRMjUlk+3y2UbKU1AMKbungDQ7ZHY/gsDSKjucl8YYyYyyQrL9rKcwmEWDTxIDhq4rkbDM/9QOlAHdwtZAGemn67Scanx9fUdr1wGBGqgRK6bxHH1YYZpOIYzWjUUtvJZT0LtxqIqE3b9ddzHlotIKwuisv9WASamCZ+qYr9GS8hk7XbNQG6sj1J7DBbK/tA+C/cXsNvi/UtRMBqRVWAyOjafwZJErphVjO10Qihq9D+WcflPxH1KX+MxOHd1AqD8Op2YIjuFA4VUcuL7b+HjhchHwU5qa4aW9qqamVc8E+pLzqBIM8IxG164h6O1LDzAbAQCIuLo3j+AlhT3zeEv1E8Qrq0CVPZ/qj4wXpwROUNv//WIVocBjJobbHe4GKIq8Zc5bdvocXX/Ocb4ImQSO7ESisD/EGvti60XSCoUPshhqPwlFnpVHkEmgVBTVgY2QQQ5dk/kxpTLYDiahUzSQeU87mT/KEfbNDfZad/xlqEMaTkNpH5wgKzs/+cOJJTGk0GV7Vx8B9KK9dUFGm5rxii/9qrffb0cWPiAISdOE=
+    file_glob: true
+    skip_cleanup: true
+    file: "./yoda-cli-*.tar.gz"
+    on:
+      repo: yodaos-project/yoda-platform-tools
+      tags: true
+
 jobs:
   include:
   - stage: test
@@ -32,16 +47,9 @@ jobs:
         tags: true
 
   - stage: deploy
-    name: Publish yoda-cli to GitHub Releases
-    before_deploy:
-      - npm run pkg
-    deploy:
-      provider: releases
-      api_key:
-        secure: ojsNazT5ScROHDGZx36+tLFFWVhw/GJ2odVZgkAfNgNr0mTsNtIQPWhkFplqSWftQmLPT2RyXnwX94kkOFNwl6t7m4nw59Tuj9E1Vbt1JC/+x+uibVK/dM7CluQU4BqXYNRMjUlk+3y2UbKU1AMKbungDQ7ZHY/gsDSKjucl8YYyYyyQrL9rKcwmEWDTxIDhq4rkbDM/9QOlAHdwtZAGemn67Scanx9fUdr1wGBGqgRK6bxHH1YYZpOIYzWjUUtvJZT0LtxqIqE3b9ddzHlotIKwuisv9WASamCZ+qYr9GS8hk7XbNQG6sj1J7DBbK/tA+C/cXsNvi/UtRMBqRVWAyOjafwZJErphVjO10Qihq9D+WcflPxH1KX+MxOHd1AqD8Op2YIjuFA4VUcuL7b+HjhchHwU5qa4aW9qqamVc8E+pLzqBIM8IxG164h6O1LDzAbAQCIuLo3j+AlhT3zeEv1E8Qrq0CVPZ/qj4wXpwROUNv//WIVocBjJobbHe4GKIq8Zc5bdvocXX/Ocb4ImQSO7ESisD/EGvti60XSCoUPshhqPwlFnpVHkEmgVBTVgY2QQQ5dk/kxpTLYDiahUzSQeU87mT/KEfbNDfZad/xlqEMaTkNpH5wgKzs/+cOJJTGk0GV7Vx8B9KK9dUFGm5rxii/9qrffb0cWPiAISdOE=
-      file_glob: true
-      skip_cleanup: true
-      file: "./build/*"
-      on:
-        repo: yodaos-project/yoda-platform-tools
-        tags: true
+    name: Publish yoda-cli-linux to GitHub Releases
+    <<: *deploy_github_release_template
+  - stage: deploy
+    name: Publish yoda-cli-macos to GitHub Releases
+    <<: *deploy_github_release_template
+    os: osx
