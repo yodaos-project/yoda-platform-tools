@@ -1,7 +1,6 @@
 import program from './program'
 import Command from './cmd'
-import { printResult, sleep, getDevice } from './util'
-import { FloraClient } from 'yoda-platform-lib'
+import { printResult, sleep } from './util'
 
 const DBusConnection = {
   service: 'com.rokid.AmsExport',
@@ -91,69 +90,6 @@ program
     ], DBusConnection, cmd.parent)
 
     printResult(null, 'mock-key')
-  })
-
-program
-  .command('subscribe <name>')
-  .description('Subscribe a flora event.')
-  .action(async (name, cmd) => {
-    const device = await getDevice(cmd.serial)
-    if (device == null) {
-      throw new Error('No requested device connected')
-    }
-    const cli = new FloraClient(device.id)
-    await cli.init()
-    printResult(undefined, name)
-    cli.subscribe(name, (msg: any[], type: number) => {
-      printResult(msg)
-    })
-  })
-
-program
-  .command('post <name> <msg>')
-  .description('Post a flora message.')
-  .action(async (name, msg, cmd) => {
-    if (msg) {
-      msg = JSON.parse(msg)
-      if (!Array.isArray(msg)) {
-        throw new Error('msg is not an array')
-      }
-    }
-    msg = msg || []
-
-    const device = await getDevice(cmd.serial)
-    if (device == null) {
-      throw new Error('No requested device connected')
-    }
-    const cli = new FloraClient(device.id)
-    await cli.init()
-    cli.post(name, msg)
-    cli.deinit()
-  })
-
-program
-  .command('invoke <name> <msg> <target>')
-  .description('Invoke a flora remote method.')
-  .action(async (name, msg, target, cmd) => {
-    if (msg) {
-      msg = JSON.parse(msg)
-      if (!Array.isArray(msg)) {
-        throw new Error('msg is not an array')
-      }
-    }
-    msg = msg || []
-
-    const device = await getDevice(cmd.serial)
-    if (device == null) {
-      throw new Error('No requested device connected')
-    }
-    const cli = new FloraClient(device.id)
-    await cli.init()
-    cli.call(name, msg, target)
-      .then((res: any) => {
-        printResult(res, 'invoke')
-        cli.deinit()
-      })
   })
 
 export default program

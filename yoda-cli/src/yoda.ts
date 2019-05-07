@@ -4,7 +4,8 @@ const map: { [key: string]: string } = {
   am: './am',
   debug: './debug',
   init: './init',
-  pm: './pm'
+  pm: './pm',
+  flora: './flora'
 }
 
 function help () {

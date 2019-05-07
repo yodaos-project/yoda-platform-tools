@@ -7,6 +7,7 @@ export interface IOpenUrlOptions {
 }
 
 export interface ILaunchOptions {
+  mode?: number
   stopBeforeLaunch?: boolean
 }
 
