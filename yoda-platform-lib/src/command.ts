@@ -68,8 +68,8 @@ export class PlatformClient {
 
   async assertAvailability () {
     const version = await this.client.version()
-    if (version < 40) {
-      throw new Error(`Requires adb version >= 40, got ${version}`)
+    if (version < 32) {
+      throw new Error(`Requires adb version >= 32, got ${version}`)
     }
     const dbusSendPath = await this.client.shell(this.deviceId, '/usr/bin/which dbus-send')
       .then(adb.util.readAll)
