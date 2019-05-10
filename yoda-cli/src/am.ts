@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import { promisify } from 'util'
 import program from './program'
 import { printResult, getClient } from './util'
-import { ApplicationManager } from 'yoda-platform-lib'
+import { ApplicationManager, PackageManager } from 'yoda-platform-lib'
 import { pick } from 'lodash'
 
 const readFileAsync = promisify(fs.readFile)
@@ -76,6 +76,17 @@ program
     const am = new ApplicationManager(client)
     const result = await am.forceStop(packageName)
     printResult(result, 'force-stop')
+  })
+
+program
+  .command('logread <package-name>')
+  .description('logread convenience wrapper.')
+  .action(async (packageName, cmd) => {
+    const client = await getClient(DBusConnection, cmd.parent.serial)
+    const pm = new PackageManager(client)
+    const path = await pm.path(packageName)
+    var stream = await client.logread([ `^iotjs\\syoda-app\\s${path}` ])
+    stream.pipe(process.stdout)
   })
 
 export default program

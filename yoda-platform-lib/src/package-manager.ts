@@ -1,9 +1,9 @@
 import * as glob from 'glob'
 import { promisify } from 'util'
-import { join, relative } from 'path'
+import { join, relative, dirname } from 'path'
 import * as fs from 'fs'
 // eslint-disable-next-line no-unused-vars
-import { PlatformClient } from './command'
+import { PlatformClient } from './platform-client'
 
 const globAsync = promisify(glob)
 const readFileAsync = promisify(fs.readFile)
@@ -64,8 +64,6 @@ export class PackageManager {
     await Promise.all(files.map(async file => {
       const stat = await statAsync(file)
       const remotePath = join(installPath, installName, relative(packageLocalPath, file))
-      await this.client.client.shell(this.client.deviceId, `rm -rf ${remotePath}`)
-        .catch(() => {})
       switch (true) {
         case stat.isDirectory(): {
           console.log(`installing directory(${file})`)
@@ -77,6 +75,13 @@ export class PackageManager {
         }
         case stat.isFile(): {
           console.log(`installing file(${file})`)
+          await this.client.client.shell(this.client.deviceId, `rm -rf ${remotePath}`)
+            .catch(() => {})
+          const dir = dirname(remotePath)
+          await this.client.client.shell(this.client.deviceId, `mkdir -p ${dir}`)
+            .catch((err: Error) => {
+              throw new Error(`Failed to install directory(${file}: ${err.message}`)
+            })
           await this.client.client.push(this.client.deviceId, file, remotePath)
             .catch((err: Error) => {
               throw new Error(`Failed to install file(${file}: ${err.message}`)

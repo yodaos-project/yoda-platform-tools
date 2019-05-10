@@ -1,5 +1,8 @@
 import * as adb from 'adbkit'
 import * as path from 'path'
+import * as readline from 'readline'
+// eslint-disable-next-line no-unused-vars
+import { Readable, PassThrough } from 'stream'
 import { RequestError, CommandError } from './error'
 
 export interface IDBusConnection {
@@ -112,5 +115,34 @@ export class PlatformClient {
       throw new CommandError(result.message, result.stack)
     }
     return result.result
+  }
+
+  async logread (filterSpec: string[]): Promise<Readable> {
+    const filters = filterSpec.reduce((accu: string, it: string) => `${accu} -e "${it.replace('"', '\\"')}"`, '')
+    const stream = await this.client.shell(this.deviceId, `logread -f ${filters}`)
+    const rl = readline.createInterface({
+      input: stream
+    })
+    const output = new PassThrough()
+    rl.on('line', line => {
+      /**
+       * 1: program
+       * 2: pid
+       * 3: level
+       * 4: timestamp
+       * 5: tag
+       * 6: content
+       */
+      let match = line.match(/^(.+?)\[(\d+?)\]:\s\[(\w+?)\]\s*(\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)\s\[(.*?)\](?:.+?\s)?(.*)/)
+      if (match != null) {
+        output.write(`${match[4]} ${match[3][0]}\\${match[5]}(${match[2]}): ${match[6]}\n`)
+        return
+      }
+      match = line.match(/^(.+?)\[(\d+?)\]:\s(.*)/)
+      if (match != null) {
+        output.write(`${match[3]}\n`)
+      }
+    })
+    return output
   }
 }

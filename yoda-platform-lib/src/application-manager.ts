@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { PlatformClient } from './command'
+import { PlatformClient } from './platform-client'
 
 export interface IOpenUrlOptions {
   form?: 'cut' | 'scene'
