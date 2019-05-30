@@ -69,6 +69,17 @@ program
   })
 
 program
+  .command('instrument <package-name> <instruments-glob>')
+  .description('Launch app and run instruments.')
+  .action(async (packageName, instruments, cmd) => {
+    const client = await getClient(DBusConnection, cmd.parent.serial)
+    const am = new ApplicationManager(client)
+
+    const result = await am.launch(packageName, { mode: 'instrument', args: [ instruments ] })
+    printResult(result, 'instrument')
+  })
+
+program
   .command('force-stop <package-name>')
   .description('Force stop an app on device.')
   .action(async (packageName, cmd) => {
