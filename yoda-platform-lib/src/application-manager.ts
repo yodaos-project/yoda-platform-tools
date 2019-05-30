@@ -7,8 +7,10 @@ export interface IOpenUrlOptions {
 }
 
 export interface ILaunchOptions {
-  mode?: number
+  mode?: string
   stopBeforeLaunch?: boolean
+  args?: string[]
+  environs?: { [name: string]: string }
 }
 
 export class ApplicationManager {
