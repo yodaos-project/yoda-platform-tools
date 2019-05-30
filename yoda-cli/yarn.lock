@@ -558,9 +558,9 @@ find-up@^2.0.0:
   dependencies:
     locate-path "^2.0.0"
 
-flora@yodaos-project/node-flora#master:
+flora@yodaos-project/node-flora#release/1.0.x:
   version "0.1.0"
-  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/340fb5c765705423b3b55a718a1af0b3695704cd"
+  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/95d2c389332515eda789ac730ced8edf9df30902"
   dependencies:
     node-addon-api "^1.6.2"
 
