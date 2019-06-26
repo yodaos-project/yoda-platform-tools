@@ -61,10 +61,11 @@ program
   .command('launch <package-name>')
   .description('Launch an app on device.')
   .option('-m, --mode <mode>', 'mode', /^(default|test)$/i, 'default')
+  .option('-t, --type <type>', 'type', /^(default|hive|light)$/i, 'default')
   .action(async (packageName, cmd) => {
     const client = await getClient(DBusConnection, cmd.parent.serial)
     const am = new ApplicationManager(client)
-    const result = await am.launch(packageName, { mode: cmd.mode })
+    const result = await am.launch(packageName, { mode: cmd.mode, type: cmd.type })
     printResult(result, 'launch')
   })
 

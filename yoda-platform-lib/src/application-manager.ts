@@ -8,6 +8,7 @@ export interface IOpenUrlOptions {
 
 export interface ILaunchOptions {
   mode?: string
+  type?: string
   stopBeforeLaunch?: boolean
   args?: string[]
   environs?: { [name: string]: string }
