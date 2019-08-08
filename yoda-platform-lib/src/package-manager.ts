@@ -54,6 +54,16 @@ export class PackageManager {
         (packageJson.files as string[]).map(it => globAsync(join(packageLocalPath, it)))
       )
       files = res.reduce((accu, it) => accu.concat(it), [])
+      const resolveDir = await Promise.all(files.map(async it => {
+        const stat = await statAsync(it)
+        switch (true) {
+          case stat.isDirectory():
+            return globAsync(join(it, '**', '*'))
+          default:
+            return it
+        }
+      }))
+      files = resolveDir.reduce<string[]>((accu, it) => accu.concat(it), [])
     } else {
       files = await globAsync(join(packageLocalPath, '**', '*'))
     }
