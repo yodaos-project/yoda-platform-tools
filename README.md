@@ -24,7 +24,7 @@ A library provides base functionality to enable multiple tool to talk to YodaOS 
 
 A VSCode extension provides easy commands on YodaOS devices and apps installation from workspaces.
 
-## Get Started
+## Get Involved
 
 ##### Setup development environment
 
