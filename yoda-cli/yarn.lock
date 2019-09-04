@@ -560,7 +560,7 @@ find-up@^2.0.0:
 
 flora@yodaos-project/node-flora#release/1.0.x:
   version "0.1.0"
-  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/95d2c389332515eda789ac730ced8edf9df30902"
+  resolved "https://codeload.github.com/yodaos-project/node-flora/tar.gz/bbd91f7d508b2743b5f796365e7d9c021149f5e8"
   dependencies:
     node-addon-api "^1.6.2"
 
